@@ -9,7 +9,10 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-volatile unsigned char obst = 0;
+volatile unsigned char obst_front = 0;
+volatile unsigned char obst_back = 0;
+volatile unsigned char obst_left = 0;
+volatile unsigned char obst_right = 0;
 volatile double distance;
 volatile uint16_t time1;
 volatile uint16_t time2;
@@ -67,7 +70,50 @@ int main(void)
 			
 			distance = (finalTime*340)/2;
 			
-			if(distance <= 0.1 && sensor_num == 3)
+			if(distance <= 0.1)
+			{
+				switch(sensor_num)
+				{
+					case 2:
+					obst_back = 1;
+					break;
+					
+					case 3:
+					obst_front = 1;
+					break;
+					
+					case 4:
+					obst_left = 1;
+					break;
+					
+					case 5:
+					obst_right = 1;
+					break;
+				}
+			}
+			else
+			{
+				switch(sensor_num)
+				{
+					case 2:
+					obst_back = 0;
+					break;
+					
+					case 3:
+					obst_front = 0;
+					break;
+					
+					case 4:
+					obst_left = 0;
+					break;
+					
+					case 5:
+					obst_right = 0;
+					break;
+				}
+			}
+			
+			if(obst_right == 1)
 			{
 				PORTB = PORTB | (1 << PB5);
 			}
@@ -148,7 +194,7 @@ ISR(TIMER2_COMPA_vect) //Every 20 us this ISR fires
 		break;
 	}
 	
-	if(count == 500) //After 700*20us = 14 ms we start again the ranging
+	if(count == 400) //After 700*20us = 14 ms we start again the ranging
 	{
 		count = 0;
 		front_count = 0;
