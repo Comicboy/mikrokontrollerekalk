@@ -65,6 +65,7 @@ int main(void)
 			{
 				PORTB = PORTB & ~(1 << PB5);
 			}
+			edge = 1;
 		}
     }
 }
@@ -103,7 +104,6 @@ ISR(TIMER1_CAPT_vect) //THis ISR fires whenever there is a pin change on the ech
 		case 0:
 		time2 = ICR1L;
 		time2 = time2 | (ICR1H << 8);
-		edge = 1;
 		TCCR1B = TCCR1B | (1 << ICES1); //Input capture rising edge
 		measured = 1;
 		break;
