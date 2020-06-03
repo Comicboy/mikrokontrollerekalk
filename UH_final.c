@@ -17,11 +17,11 @@ volatile double distance;
 volatile uint16_t time1;
 volatile uint16_t time2;
 double finalTime;
-volatile unsigned char count = 0;
-volatile unsigned char front_count = 0;
-volatile unsigned char back_count = 0;
-volatile unsigned char right_count = 0;
-volatile unsigned char left_count = 0;
+volatile uint16_t count = 0;
+volatile uint16_t front_count = 0;
+volatile uint16_t back_count = 0;
+volatile uint16_t right_count = 0;
+volatile uint16_t left_count = 0;
 volatile unsigned char measured = 0;
 volatile unsigned char edge = 1;
 volatile unsigned char sensor_num;
@@ -194,7 +194,7 @@ ISR(TIMER2_COMPA_vect) //Every 20 us this ISR fires
 		break;
 	}
 	
-	if(count == 400) //After 700*20us = 14 ms we start again the ranging
+	if(count == 1000) //After 700*20us = 14 ms we start again the ranging
 	{
 		count = 0;
 		front_count = 0;
